@@ -10,7 +10,11 @@ use League\Route\Http\Exception\NotFoundException;
 use League\Route\Router;
 
 /*/ Generic Pdsinterop /*/
+use Pdsinterop\Authentication\Enum\ServerPrefix;
 use Pdsinterop\Authentication\Router as ProjectRouter;
+
+/*/ Resource Server  /*/
+use Pdsinterop\Authentication\Resource\Router as ResourceRouter;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -34,6 +38,7 @@ $router = new Router();
 
 $routes = [
     '/' => new ProjectRouter($response),
+    ServerPrefix::RESOURCE => new ResourceRouter($response),
 ];
 
 array_walk($routes, function ($handler, $route) use (&$router) {
