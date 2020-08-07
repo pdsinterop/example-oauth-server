@@ -1,5 +1,17 @@
 <?php declare(strict_types=1);
 
+/*/ Vendor /*/
+use Laminas\Diactoros\Response;
+use Laminas\Diactoros\ServerRequestFactory;
+use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
+use Laminas\HttpHandlerRunner\Exception\EmitterException;
+use League\Route\Http\Exception\HttpExceptionInterface;
+use League\Route\Http\Exception\NotFoundException;
+use League\Route\Router;
+
+/*/ Generic Pdsinterop /*/
+use Pdsinterop\Authentication\Router as ProjectRouter;
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 session_start();
@@ -7,7 +19,7 @@ ob_start();
 
 $clientIdentifier = 'PDS Interop OAuth Example App';
 
-$request = \Laminas\Diactoros\ServerRequestFactory::fromGlobals($_SERVER, $_GET, $_POST, $_COOKIE, $_FILES);
+$request = ServerRequestFactory::fromGlobals($_SERVER, $_GET, $_POST, $_COOKIE, $_FILES);
 
 $host = vsprintf('%s://%s%s', [
     'Scheme' => $request->getUri()->getScheme(),
@@ -17,11 +29,11 @@ $host = vsprintf('%s://%s%s', [
 
 
 // Set up routes
-$response = new \Laminas\Diactoros\Response();
-$router = new \League\Route\Router();
+$response = new Response();
+$router = new Router();
 
 $routes = [
-    '/' => new \Pdsinterop\Authentication\Router($response),
+    '/' => new ProjectRouter($response),
 ];
 
 array_walk($routes, function ($handler, $route) use (&$router) {
@@ -31,10 +43,10 @@ array_walk($routes, function ($handler, $route) use (&$router) {
 // Create response for requested route
 try {
     $response = $router->dispatch($request);
-} catch (\League\Route\Http\Exception\NotFoundException $exception) {
+} catch (NotFoundException $exception) {
     $error = $exception->getMessage();
     $description = vsprintf("The requested route '%s' does not exist on this server.", [$request->getRequestTarget()]);
-} catch (\League\Route\Http\Exception\HttpExceptionInterface $exception) {
+} catch (HttpExceptionInterface $exception) {
     $error = $exception->getMessage();
 } catch (Throwable $exception) {
     // @FIXME: An exception here means a developer mistake (or "bug") as all exceptions should have been caught in the called route handler, how to handle?
@@ -55,14 +67,14 @@ try {
 
 
 // Send the response to the browser
-$emitter = new \Laminas\HttpHandlerRunner\Emitter\SapiEmitter();
+$emitter = new SapiEmitter();
 
 // Any output means a developer mistake (or "bug")
 ob_clean();
 
 try {
     $emitter->emit($response);
-} catch (\Laminas\HttpHandlerRunner\Exception\EmitterException $exception) {
+} catch (EmitterException $exception) {
     // @FIXME: An exception here means a developer mistake (or "bug") as all exceptions should have been caught in the called emitter, how to handle?
     http_response_code(500);
     $message = '<h1>EMITTER ERROR</h1><pre>' . $exception . '</pre>';
