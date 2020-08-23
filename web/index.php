@@ -8,12 +8,14 @@ use Laminas\HttpHandlerRunner\Exception\EmitterException;
 use League\Route\Http\Exception\HttpExceptionInterface;
 use League\Route\Http\Exception\NotFoundException;
 use League\Route\Router;
+use function MJRider\FlysystemFactory\create as createFileSystem;
 
 /*/ Generic Pdsinterop /*/
 use Pdsinterop\Authentication\Enum\ServerPrefix;
 use Pdsinterop\Authentication\Router as ProjectRouter;
 
 /*/ Resource Server  /*/
+use Pdsinterop\Authentication\Resource\Handler\Authentication;
 use Pdsinterop\Authentication\Resource\Router as ResourceRouter;
 
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -25,6 +27,8 @@ ob_start();
 // Configuration
 // -----------------------------------------------------------------------------
 $clientIdentifier = 'PDS Interop OAuth Example App';
+
+$location = getenv('STORAGE_ENDPOINT') ?: 'local:'.dirname(__DIR__) . '/tests/fixtures/files';
 // =============================================================================
 
 
@@ -38,6 +42,12 @@ $host = vsprintf('%s://%s%s', [
     'Host' => $request->getUri()->getHost(),
     'Port' => $request->getUri()->getPort() ? ':'.$request->getUri()->getPort() : '',
 ]);
+
+$filesystem = createFileSystem($location);
+
+$publicResources = [
+    'public_resource.txt'
+];
 /*/ ======================================================================== /*/
 
 
@@ -49,7 +59,12 @@ $router = new Router();
 
 $routes = [
     '/' => new ProjectRouter($response),
-    ServerPrefix::RESOURCE => new ResourceRouter($response),
+    ServerPrefix::RESOURCE => new ResourceRouter(
+        $response,
+        $filesystem,
+        new Authentication($response),
+        $publicResources
+    ),
 ];
 
 array_walk($routes, static function ($handler, $route) use (&$router) {
