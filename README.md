@@ -1,5 +1,4 @@
-**@FIXME:** 
-- [ ] Run toc generator
+**@FIXME:**
 - [ ] Generate a changelog
       `github_changelog_generator -u pdsinterop -p {{ project-slug }}`
 
@@ -37,32 +36,34 @@ Repository and Grant classes for `league/oauth2-server` and custom Provider for
 ## Table of Contents
 
 <!-- toc -->
-<!--
-    Table of Contents is optional for READMEs shorter than 100 lines.
-    Generate it using:
 
-                        markdown-toc --bullets='-' -i -- README.md
+- [Background](#background)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Provided docker image](#provided-docker-image)
+  - [Custom docker image](#custom-docker-image)
+  - [PHP development server](#php-development-server)
+- [Contribute](#contribute)
+- [License](#license)
 
-    That will also remove these lines, as they are inside toc/tocstop
--->
 <!-- tocstop -->
 
 ## Background
 
-The code in this project was created in order to understand how OAuth2 and these 
+The code in this project was created in order to understand how OAuth2 and these
 libraries work, whilst implementing the Authentication and Authorization for
 [the standalone PHP](https://pdsinterop.org/php-solid) and
 [Nextcloud Solid](https://pdsinterop.org/solid-nextcloud) servers.
 
-This project <!-- and accompanying article --> should make it more clear what sort of 
-data is send across the network and could (or should) be stored by an 
+This project <!-- and accompanying article --> should make it more clear what sort of
+data is send across the network and could (or should) be stored by an
 application acting as an OAuth2 server.
 
 The details of _how_ to store things depends on whatever platform, library or
 framework integrating the OAuth2 server.
 
 If you feel more comfortable looking at implementations for a specific framework
-in order to understand how all of this works, take a look at one of the other 
+in order to understand how all of this works, take a look at one of the other
 existing integrations <!-- [listed at the end of the article]() -->.
 
 ## Installation
@@ -70,7 +71,7 @@ existing integrations <!-- [listed at the end of the article]() -->.
 The advised way of running this project is by using the provided docker image.
 
 To install the project locally, create a Git clone and run [Composer](https://getcomposer.org/)
-to install the required dependencies: 
+to install the required dependencies:
 
 ```
 git clone https://github.com/pdsinterop/example-oauth2.git oauth2-example
@@ -80,12 +81,12 @@ composer install
 
 ## Usage
 
-The application runs an authorization server, client application, and resource 
+The application runs an authorization server, client application, and resource
 server from the same webroot.
 
 It makes calls to itself and _should_ run HTTPS (HTTP+TLS).
 
-It can be run by using the provided docker image, a docker image of your choice 
+It can be run by using the provided docker image, a docker image of your choice
 or with the PHP development server.
 
 ### Provided docker image
@@ -114,10 +115,10 @@ docker run                                     \
 ### PHP development server
 
 As this is meant as a runnable example and NOT production ready, HTTPS will be
-disabled when run using the built-in PHP development server (as it does not 
+disabled when run using the built-in PHP development server (as it does not
 support HTTP+TLS).
 
-When using the PHP development server, all request to the server by the client 
+When using the PHP development server, all request to the server by the client
 will time-out unless it is called with more workers enabled:
 
 ```sh
@@ -132,14 +133,14 @@ php                         \
 
 Questions or feedback can be given by [opening an issue on GitHub](https://github.com/pdsinterop/example-oauth2/issues).
 
-All PDS Interop projects are open source and community-friendly. 
-Any contribution is welcome! 
+All PDS Interop projects are open source and community-friendly.
+Any contribution is welcome!
 For more details read the [contribution guidelines](CONTRIBUTING.md).
 
 All PDS Interop projects adhere to [the Code Manifesto](http://codemanifesto.com)
 as its [code-of-conduct](CODE_OF_CONDUCT.md). Contributors are expected to abide by its terms.
 
-There is [a list of all contributors on GitHub][contributors-page]. 
+There is [a list of all contributors on GitHub][contributors-page].
 
 For a list of changes see the [CHANGELOG](CHANGELOG.md) or [the GitHub releases page](https://github.com/pdsinterop/example-oauth2/releases).
 
