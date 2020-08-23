@@ -2,24 +2,54 @@
 
 namespace Pdsinterop\Authentication\Resource;
 
+use League\Flysystem\Filesystem;
 use League\Route\RouteGroup;
 use Pdsinterop\Authentication\AbstractRouter;
 use Pdsinterop\Authentication\RedirectWithSlashHandler as RedirectHandler;
 use Pdsinterop\Authentication\Resource\Handler\Authentication;
+use Pdsinterop\Authentication\Resource\Handler\Resource as ResourceHandler;
 use Psr\Http\Message\ResponseInterface as Response;
 
 class Router extends AbstractRouter
 {
+    ////////////////////////////// CLASS PROPERTIES \\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+    /** @var Authentication */
+    private $authentication;
+    /** @var Filesystem */
+    private $filesystem;
+    /** @var string[] */
+    private $publicResources;
+
     //////////////////////////////// PUBLIC API \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+    public function __construct(
+        Response $response,
+        Filesystem $filesystem,
+        Authentication $authentication,
+        array $publicResources
+    ) {
+        $this->authentication = $authentication;
+        $this->filesystem = $filesystem;
+        $this->publicResources = $publicResources;
+
+        parent::__construct($response);
+    }
 
     final public function route() : callable
     {
+        $authentication = $this->authentication;
+        $filesystem = $this->filesystem;
+        $publicResources = $this->publicResources;
         $response = $this->getResponse();
 
-        return function (RouteGroup $router) use ($response) {
+        return function (RouteGroup $router) use ($authentication, $filesystem, $publicResources, $response) {
             $router->map('GET', '/', new RedirectHandler($response));
             $router->map('GET', '', $this->handleRootRequest($response));
-            $router->map('GET', '/authenticate', new Authentication($response));
+
+            $resourceHandler = new ResourceHandler($response, $filesystem, $authentication);
+            $resourceHandler->setPublicResources($publicResources);
+            $router->map('GET', '{path:.*}', $resourceHandler);
         };
     }
 
