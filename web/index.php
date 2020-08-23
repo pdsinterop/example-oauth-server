@@ -21,8 +21,16 @@ require_once __DIR__ . '/../vendor/autoload.php';
 session_start();
 ob_start();
 
+// =============================================================================
+// Configuration
+// -----------------------------------------------------------------------------
 $clientIdentifier = 'PDS Interop OAuth Example App';
+// =============================================================================
 
+
+// =============================================================================
+// Create Objects from I/O (filesystem, network, globals)
+// -----------------------------------------------------------------------------
 $request = ServerRequestFactory::fromGlobals($_SERVER, $_GET, $_POST, $_COOKIE, $_FILES);
 
 $host = vsprintf('%s://%s%s', [
@@ -30,9 +38,12 @@ $host = vsprintf('%s://%s%s', [
     'Host' => $request->getUri()->getHost(),
     'Port' => $request->getUri()->getPort() ? ':'.$request->getUri()->getPort() : '',
 ]);
+/*/ ======================================================================== /*/
 
 
+// =============================================================================
 // Set up routes
+// -----------------------------------------------------------------------------
 $response = new Response();
 $router = new Router();
 
@@ -41,11 +52,15 @@ $routes = [
     ServerPrefix::RESOURCE => new ResourceRouter($response),
 ];
 
-array_walk($routes, function ($handler, $route) use (&$router) {
+array_walk($routes, static function ($handler, $route) use (&$router) {
     $router->group($route, $handler->route());
 });
+/*/ ======================================================================== /*/
 
+
+// =============================================================================
 // Create response for requested route
+// -----------------------------------------------------------------------------
 try {
     $response = $router->dispatch($request);
 } catch (NotFoundException $exception) {
@@ -69,9 +84,12 @@ try {
         $response = $response->withStatus($statusCode);
     }
 }
+/*/ ======================================================================== /*/
 
 
+// =============================================================================
 // Send the response to the browser
+// -----------------------------------------------------------------------------
 $emitter = new SapiEmitter();
 
 // Any output means a developer mistake (or "bug")
