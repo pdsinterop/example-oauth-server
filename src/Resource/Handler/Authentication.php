@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Pdsinterop\Authentication\Resource\Handler;
 
@@ -14,7 +14,7 @@ class Authentication extends AbstractHandler
     {
         $response = $this->getResponse();
 
-        $html = $this->buildResponseHtml();
+        $html = $this->buildResponseHtml($args['path']);
 
         $response->getBody()->write($html);
 
@@ -23,17 +23,23 @@ class Authentication extends AbstractHandler
 
     ////////////////////////////// UTILITY METHODS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-    /**
-     * @return string
-     */
-    private function buildResponseHtml() : string
+    private function buildResponseHtml(string $resource) : string
     {
-        $html = <<<'HTML'
+        return <<<"HTML"
 <h1>Authentication required</h1>
 
-<p>In order to see the requested resource, please authenticate yourself.</p>
-HTML;
+<p>In order to see the requested resource "{$resource}", you need to be authenticated.</p>
 
-        return $html;
+<p>As this example is built to help you understand how things work, this screen is shown.</p>
+
+<p>Under normal circumstances, this screen would immediately redirect to the Authorization Server</p>
+
+<p>Pick one of the methods below to authenticate:</p>
+
+<ul>
+    <li><b>@FIXME: </b> Show authentication methods here</li>
+</ul>
+
+HTML;
     }
 }
