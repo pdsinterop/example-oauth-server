@@ -27,4 +27,15 @@ abstract class AbstractHandler
     }
 
     abstract public function __invoke(Request $request, array $args) : Response;
+
+    final public function createJsonResponse(array $contents) : Response
+    {
+        $response = $this->response;
+
+        $json = json_encode($contents, JSON_PRETTY_PRINT);
+
+        $response->getBody()->write($json);
+
+        return $response->withHeader('content-type', 'application/json; charset=UTF-8');
+    }
 }
