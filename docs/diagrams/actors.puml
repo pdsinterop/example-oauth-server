@@ -1,0 +1,27 @@
+@startuml
+
+== Actors ==
+
+actor "Resource Owner"
+
+box Client
+  participant Client
+'  participant "Redirection endpoint"
+endbox
+participant "User-Agent"
+
+box "Authorization Server"
+  participant "Authorization Server"
+'  participant "Authorization endpoint"
+'  participant "Token endpoint"
+endbox
+
+participant "Resource Server"
+
+Client <--> "Resource Owner"
+Client <--> "User-Agent"
+"User-Agent" --> "Authorization Server"
+Client --> "Authorization Server"
+Client --> "Resource Server"
+
+@enduml
