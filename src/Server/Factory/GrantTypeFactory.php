@@ -68,6 +68,7 @@ class GrantTypeFactory
 
             default:
                 throw new InvalidArgumentException('Given grant type "' . $grantType . '"is not supported');
+                break;
         }
 
         return $grant;

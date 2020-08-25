@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Pdsinterop\Authentication\Server\Enum;
 
@@ -17,5 +17,4 @@ class Repository
     public const REFRESH_TOKEN = RefreshToken::class;
     public const SCOPE = Scope::class;
     public const USER = User::class;
-
 }
