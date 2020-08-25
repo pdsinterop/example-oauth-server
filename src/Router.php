@@ -15,6 +15,8 @@ class Router extends AbstractRouter
 
         return static function (RouteGroup $router) use ($response) {
             $router->map('GET', '/', new HomepageHandler($response));
+            $router->map('GET', '/.well-known/oauth-authorization-server', new NotImplementedHandler($response));
+            $router->map('GET', '/.well-known/openid-configuration', new NotImplementedHandler($response));
         };
     }
 
