@@ -48,6 +48,7 @@ class Router extends AbstractRouter
 
         $server = $serverFactory->createAuthorizationServer($grantTypes);
 
+        // @TODO: The definitions $router->map() calls should stay here but the methods should (probably?) be moved to another class
         return function (RouteGroup $router) use ($response, $server, $user) {
             $router->map('GET', '/authorize', $this->routeAuthorizationCodeGrant($response, $server, $user));
             $router->map('POST', '/authorize', $this->routeAuthorizationCodeGrant($response, $server, $user));
@@ -62,11 +63,7 @@ class Router extends AbstractRouter
     private function accessTokenHandler(ResponseInterface $response, AuthorizationServer $server) : callable
     {
         return static function (ServerRequestInterface $request/*, array $args*/) use ($response, $server) {
-            try {
-                return $server->respondToAccessTokenRequest($request, $response);
-            } catch (Exception $exception) {
-                return static::createExceptionResponse($exception, $response);
-            }
+            return $server->respondToAccessTokenRequest($request, $response);
         };
     }
 
@@ -76,29 +73,23 @@ class Router extends AbstractRouter
         UserEntityInterface $user
     ) : callable {
         return static function (ServerRequestInterface $request/*, array $args*/) use ($response, $server, $user) {
-            try {
-                // Validate the HTTP request and return an AuthorizationRequest object.
-                $authRequest = $server->validateAuthorizationRequest($request);
+            // Validate the HTTP request and return an AuthorizationRequest object.
+            $authRequest = $server->validateAuthorizationRequest($request);
 
-                // The auth request object can be serialized and saved into a user's session.
-                // You will probably want to redirect the user at this point to a login endpoint.
+            // The auth request object can be serialized and saved into a user's session.
+            // You will probably want to redirect the user at this point to a login endpoint.
 
-                // Once the user has logged in set the user on the AuthorizationRequest
-                $authRequest->setUser($user);
+            // Once the user has logged in set the user on the AuthorizationRequest
+            $authRequest->setUser($user);
 
-                // At this point you should redirect the user to an authorization page.
-                // This form will ask the user to approve the client and the scopes requested.
+            // At this point you should redirect the user to an authorization page.
+            // This form will ask the user to approve the client and the scopes requested.
 
-                // Once the user has approved or denied the client update the status
-                $authRequest->setAuthorizationApproved(Authorization::APPROVED);
+            // Once the user has approved or denied the client update the status
+            $authRequest->setAuthorizationApproved(Authorization::APPROVED);
 
-                // Return the HTTP redirect response
-                $response = $server->completeAuthorizationRequest($authRequest, $response);
-
-            } catch (Exception $exception) {
-                $response = static::createExceptionResponse($exception, $response);
-            }
-
+            // Return the HTTP redirect response
+            $response = $server->completeAuthorizationRequest($authRequest, $response);
             return $response;
         };
     }
