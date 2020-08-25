@@ -1,0 +1,57 @@
+@startuml
+
+!include bootstrap.iuml
+
+group Figure 3: Authorization Code Flow
+  Client o-> "User-Agent": Ⓐ  Start access request
+
+  activate "User-Agent"
+    "User-Agent" -> "Authorization Server": Ⓐ Request access for **client**
+
+    note left
+      Ⓐ Request includes ""client_identifier"",
+      ""redirect_uri"", ""scope"", ""state""
+    endnote
+
+    activate "Authorization Server"
+      "Resource Owner" <-- "Authorization Server"
+    deactivate
+
+    activate "Resource Owner"
+      '...Wait for user to authenticate...
+      "Resource Owner" -> "Authorization Server": Ⓑ User authenticates and grants\n(or denies) the **client** access request
+    deactivate
+
+    activate "Authorization Server"
+      "User-Agent" <- "Authorization Server": Ⓒ Redirect **user-agent** back to\nthe **client** using  ""redirect_uri""
+    deactivate
+
+    note left
+       Ⓒ Redirect response includes
+       ""authorization_code"" and ""state""
+    endnote
+    Client <- "User-Agent": Ⓒ
+  deactivate
+
+  activate Client
+    Client -> "Authorization Server": Ⓓ Requests an access token
+    note left
+       Ⓓ Request includes
+       ""authorization_code""
+       and  ""redirect_uri""
+    endnote
+  deactivate
+
+  activate "Authorization Server"
+
+    "Authorization Server" --> "Authorization Server": Ⓓ Authenticate **client**,\nvalidate the ""authorization_code""\nand ""redirection_uri""
+    note left
+      Ⓔ Response contains ""access_token""
+      (and optionally a ""refresh_token"").
+    endnote
+
+    Client o<- "Authorization Server": Ⓔ Access Token (w/ Optional Refresh Token)
+  deactivate
+end
+
+@enduml
