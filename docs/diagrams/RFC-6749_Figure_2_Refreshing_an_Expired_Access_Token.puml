@@ -1,0 +1,26 @@
+@startuml
+
+!include bootstrap.iuml
+
+group Figure 2: Refreshing an Expired Access Token
+  Client o-> "Authorization Server" : Ⓐ Authorization Grant
+  activate "Authorization Server"
+    Client <- "Authorization Server" : Ⓑ Access Token & Refresh Token
+  deactivate
+
+  Client -> "Resource Server" : Ⓒ Access Token
+  activate "Resource Server"
+    Client <- "Resource Server" : Ⓓ Protected Resource
+  deactivate
+  Client -> "Resource Server" : Ⓔ Access Token
+  activate "Resource Server"
+    Client <- "Resource Server" : Ⓕ Invalid Token Error
+  deactivate
+  Client -> "Authorization Server" : Ⓖ Refresh Token
+
+  activate "Authorization Server"
+    Client o<- "Authorization Server" : Ⓗ Access Token & Optional Refresh Token
+  deactivate
+end
+
+@enduml
