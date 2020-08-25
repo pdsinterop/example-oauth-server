@@ -1,0 +1,23 @@
+@startuml
+
+/' @TODO: Add PDS Interop colors/styling
+
+  Purple Medium   : #5c12a6
+    Purple Dark     : #2F0459
+    Purple Light    : #7F25D9
+
+  Yellow          : #F2E205
+    Orange          : #d98E04
+
+  Warning Blue    : #8cb4fa
+  Warning Red     : #fd8f8f
+  Warning Yellow  : #FFFFCC
+'/
+
+skinparam responseMessageBelowArrow true
+skinparam shadowing false
+
+skinparam sequence {
+}
+
+@enduml
