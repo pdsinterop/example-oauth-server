@@ -1,0 +1,24 @@
+@startuml
+
+!include bootstrap.iuml
+
+group Figure 1: Abstract Protocol Flow
+  "Resource Owner" o-> Client
+  activate Client
+    Client -> "Resource Owner": Ⓐ Authorization Request
+    activate "Resource Owner"
+      Client <- "Resource Owner" : Ⓑ Authorization Grant
+    deactivate
+    Client -> "Authorization Server": Ⓒ Authorization Grant
+    activate "Authorization Server"
+      Client <- "Authorization Server": Ⓓ Access Token
+    deactivate
+    Client -> "Resource Server" : Ⓔ "Access Token"
+    activate "Resource Server"
+    Client <- "Resource Server" : Ⓕ "Protected Resource"
+    deactivate
+    "Resource Owner" o<- Client
+  deactivate
+end
+
+@enduml
