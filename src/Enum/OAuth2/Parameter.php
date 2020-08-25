@@ -2,6 +2,8 @@
 
 namespace Pdsinterop\Authentication\Enum\OAuth2;
 
+use Pdsinterop\Authentication\Enum\AbstractEnum;
+
 /**
  * OAuth Parameters
  *
@@ -22,7 +24,7 @@ namespace Pdsinterop\Authentication\Enum\OAuth2;
  *
  * @see https://www.iana.org/assignments/oauth-parameters/oauth-parameters.xhtml#parameters
  */
-class Parameter
+class Parameter extends AbstractEnum
 {
     // RFC7649 - OAuth2: authorization response, token response
     public const ACCESS_TOKEN = 'access_token';
