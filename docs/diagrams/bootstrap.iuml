@@ -1,0 +1,12 @@
+@startuml
+
+!ifndef BOOTSTRAP_INCLUDED
+    !define BOOTSTRAP_INCLUDED
+
+    !include includes/skinparam.iuml
+    !include actors.puml
+
+    == Flows ==
+!endif
+
+@enduml
