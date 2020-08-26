@@ -1,10 +1,10 @@
 @startuml
 
-!ifndef BOOTSTRAP_INCLUDED
-    !define BOOTSTRAP_INCLUDED
+!if ($bootstrapIncluded == false)
+  !$bootstrapIncluded = true
 
-    !include includes/skinparam.iuml
-    !include actors.puml
+  !include includes/skinparam.iuml
+  !include actors.puml
 
     == Flows ==
 !endif
