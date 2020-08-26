@@ -1,23 +1,97 @@
 @startuml
 
-/' @TODO: Add PDS Interop colors/styling
+/'============================ PDS Interop colors ============================'/
 
-  Purple Medium   : #5c12a6
-    Purple Dark     : #2F0459
-    Purple Light    : #7F25D9
+!$black          = "#333333"
+!$messageBlue    = "#8cb4fa"
+!$messageRed     = "#fd8f8f"
+!$messageYellow  = "#FFFFCC"
+!$purple         = "#5c12a6"
+!$purpleDark     = "#2F0459"
+!$purpleLight    = "#7F25D9"
+!$white          = "#FFFFFF"
+!$yellow         = "#F2E205"
+!$yellowDark     = "#d98E04"
 
-  Yellow          : #F2E205
-    Orange          : #d98E04
+/'============================ Define Variables ============================='/
+!$backgroundColorPrimary = $purpleLight
+!$backgroundColorSecondary = $messageYellow
+!$backgroundColorTertiary = $yellow
 
-  Warning Blue    : #8cb4fa
-  Warning Red     : #fd8f8f
-  Warning Yellow  : #FFFFCC
-'/
+!$borderColorPrimary = $purpleDark
+!$borderColorSecondary = $yellowDark
+!$borderColorTertiary = $yellow
+!$borderSizeSmall = 1.0
+!$borderSizeNormal = 1.5
+!$borderSizeLarge = 2.0
 
-skinparam responseMessageBelowArrow true
-skinparam shadowing false
+!$fontColorPrimary = $purpleLight
+!$fontColorSecondary = $yellowDark
+!$fontColorTertiary = $white
 
-skinparam sequence {
+!$space = 10
+
+/'============================ Define Skin Params ============================'/
+
+skinparam ResponseMessageBelowArrow true
+skinparam Shadowing false
+
+skinparam Note {
+  BackgroundColor $backgroundColorSecondary
+  BorderColor $borderColorSecondary
+  BorderThickness $borderSizeSmall
+  FontColor $fontColorSecondary
+}
+
+skinparam Sequence {
+  Actor {
+    BorderColor $borderColorPrimary
+    BackgroundColor $backgroundColorPrimary
+    FontColor $fontColorPrimary
+  }
+
+  Arrow {
+    Color $fontColorSecondary
+    Thickness 1.5
+  }
+
+  Box {
+    BackgroundColor $backgroundColorSecondary
+    BorderColor $borderColorTertiary
+    FontColor $fontColorSecondary
+  }
+
+  Divider {
+    BackgroundColor $white
+    BorderColor $borderColorPrimary
+    BorderThickness $borderSizeLarge
+    FontColor $purple
+    FontStyle normal
+  }
+
+  Group {
+    BackgroundColor $white
+    BorderColor $borderColorPrimary
+    BorderThickness $borderSizeNormal
+    FontColor $fontColorPrimary
+    HeaderFontColor $purple
+    HeaderFontStyle normal
+  }
+
+  LifeLine {
+    BorderColor $yellowDark
+    BackgroundColor $backgroundColorTertiary
+    BorderThickness $borderSize
+  }
+
+  Participant {
+    BorderThickness $borderSizeLarge
+    BorderColor $borderColorPrimary
+    BackgroundColor $backgroundColorPrimary
+    FontColor $fontColorTertiary
+    FontStyle bold
+    Padding $space
+  }
 }
 
 @enduml
