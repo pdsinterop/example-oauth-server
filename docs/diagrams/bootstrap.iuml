@@ -3,7 +3,12 @@
 !if ($bootstrapIncluded == false)
   !$bootstrapIncluded = true
 
-  !include includes/skinparam.iuml
+  !if %variable_exists("$title")
+    title $title
+  !endif
+
+  !include includes/skinparams.iuml
+
   !include actors.puml
 
     == Flows ==
