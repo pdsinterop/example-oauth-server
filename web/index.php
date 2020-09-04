@@ -93,7 +93,6 @@ $isServer = strpos($request->getRequestTarget(), ServerPrefix::AUTHORIZATION) ==
 $expiration = new Expiration($expires['accessToken'], $expires['authCode'], $expires['refreshToken']);
 
 $user = new UserEntity();
-$user->setIdentifier('Empty User');
 
 if (isset($_SESSION['user_id'])) {
     $user->setIdentifier($_SESSION['user_id']);
