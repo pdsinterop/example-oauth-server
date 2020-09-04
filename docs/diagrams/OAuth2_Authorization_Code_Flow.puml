@@ -1,0 +1,91 @@
+@startuml
+
+title = RFC6749 - OAuth 2.0 Authorization Framework
+
+hide footbox
+
+!include ./includes/skinparams.iuml
+
+/'==================================ACTORS==================================='/
+
+actor "Resource Owner"
+participant Client
+participant "User-Agent"
+participant "Authorization Server"
+participant "Resource Server"
+
+/'===================================FLOWS==================================='/
+
+"Resource Owner" o-> Client : Request protected resource
+
+activate Client
+  Client -> "Resource Server" : Request protected resource
+
+  activate "Resource Server"
+    Client <- "Resource Server" : Access Denied, please Authenticate
+  deactivate
+
+  group Authorization Code Flow
+    Client -> "User-Agent" : Ⓐ Start access request
+
+    deactivate
+
+    activate "User-Agent"
+      "User-Agent" -> "Authorization Server" : Ⓐ Request access for **client**
+
+      note left
+        Ⓐ Request includes ""client_identifier"",
+        ""redirect_uri"", ""scope"", ""state""
+      endnote
+
+      activate "Authorization Server"
+        "Resource Owner" <-- "Authorization Server"
+      deactivate
+
+      activate "Resource Owner"
+        '...Wait for user to authenticate...
+        "Resource Owner" -> "Authorization Server" : Ⓑ User authenticates and grants\n(or denies) the **client** access request
+      deactivate
+
+      activate "Authorization Server"
+        "User-Agent" <- "Authorization Server" : Ⓒ Redirect **user-agent** back to\nthe **client** using ""redirect_uri""
+      deactivate
+
+      note left
+         Ⓒ Redirect response includes
+         ""authorization_code"" and ""state""
+      endnote
+      Client <- "User-Agent" : Ⓒ
+    deactivate
+
+    activate Client
+      Client -> "Authorization Server" : Ⓓ Requests an access token
+      note left
+         Ⓓ Request includes
+         ""authorization_code""
+         and ""redirect_uri""
+      endnote
+    deactivate
+
+    activate "Authorization Server"
+      "Authorization Server" --> "Authorization Server" : Ⓓ Authenticate **client**  check the\n""redirection_uri"", and validate\n""authorization_code""
+
+
+      Client <- "Authorization Server" : Ⓔ Respond with token(s)
+      note left
+        Ⓔ Response contains ""access_token""
+        (and optionally a ""refresh_token"").
+      endnote
+    deactivate
+
+    activate Client
+  end
+
+  Client -> "Resource Server" : Request protected resource, using ""access_token""
+  activate "Resource Server"
+  Client <- "Resource Server" : Respond with protected resource
+  deactivate
+  "Resource Owner" o<- Client : Respond with protected resource
+deactivate
+
+@enduml
