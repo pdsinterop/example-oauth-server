@@ -1,0 +1,39 @@
+@startuml
+
+!global $title = 'RFC7636 - Proof Key for Code Exchange by OAuth Public Clients'
+
+title $title
+
+!include ../includes/skinparams.iuml
+
+== Actors ==
+
+participant Client
+
+box "Authorization Server"
+  boundary "Authorization endpoint"
+  boundary "Token endpoint"
+endbox
+
+Client --> "Authorization endpoint"
+Client --> "Token endpoint"
+
+== Flows ==
+
+group Figure 2: Abstract Protocol Flow
+
+    Client o-> "Authorization endpoint": Ⓐ Authorization Request\n    + t(code_verifier), t_m
+    activate "Authorization endpoint"
+      Client <- "Authorization endpoint" : Ⓑ Authorization Code
+    deactivate
+
+    activate Client
+      Client -> "Token endpoint": Ⓒ Access Token Request\n    + code_verifier
+    deactivate
+
+    activate "Token endpoint"
+      Client o<- "Token endpoint": Ⓓ Access Token
+    deactivate
+end
+
+@enduml
