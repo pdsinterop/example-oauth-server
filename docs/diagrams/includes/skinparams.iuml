@@ -36,6 +36,11 @@
 skinparam ResponseMessageBelowArrow true
 skinparam Shadowing false
 
+skinparam Boundary {
+  BorderColor $borderColorPrimary
+  BackgroundColor $backgroundColorPrimary
+}
+
 skinparam Note {
   BackgroundColor $backgroundColorSecondary
   BorderColor $borderColorSecondary
