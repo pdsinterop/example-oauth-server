@@ -1,6 +1,8 @@
 @startuml
 
-!include bootstrap.iuml
+!global $title = 'RFC6749 - OAuth 2.0 Authorization Framework'
+
+!include ../bootstrap.iuml
 
 group Figure 1: Abstract Protocol Flow
   "Resource Owner" o-> Client

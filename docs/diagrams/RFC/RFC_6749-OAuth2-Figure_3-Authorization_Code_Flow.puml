@@ -1,9 +1,11 @@
 @startuml
 
-!include bootstrap.iuml
+!global $title = 'RFC6749 - OAuth 2.0 Authorization Framework'
+
+!include ../bootstrap.iuml
 
 group Figure 3: Authorization Code Flow
-  Client o-> "User-Agent": Ⓐ  Start access request
+  Client o-> "User-Agent": Ⓐ Start access request
 
   activate "User-Agent"
     "User-Agent" -> "Authorization Server": Ⓐ Request access for **client**
@@ -23,7 +25,7 @@ group Figure 3: Authorization Code Flow
     deactivate
 
     activate "Authorization Server"
-      "User-Agent" <- "Authorization Server": Ⓒ Redirect **user-agent** back to\nthe **client** using  ""redirect_uri""
+      "User-Agent" <- "Authorization Server": Ⓒ Redirect **user-agent** back to\nthe **client** using ""redirect_uri""
     deactivate
 
     note left
@@ -38,7 +40,7 @@ group Figure 3: Authorization Code Flow
     note left
        Ⓓ Request includes
        ""authorization_code""
-       and  ""redirect_uri""
+       and ""redirect_uri""
     endnote
   deactivate
 
