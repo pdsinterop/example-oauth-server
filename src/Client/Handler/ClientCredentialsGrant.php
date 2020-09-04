@@ -48,18 +48,18 @@ class ClientCredentialsGrant extends AbstractHandler
     private function createGetResponse(Provider $provider, ResponseInterface $response) : ResponseInterface
     {
         $html = $this->buildClientForm('Client Credentials Grant', <<<'HTML'
-<p>
-    The client credentials grant is meant for machine-to-machine authentication.
-</p>
-<p>
-    This grant is useful when a client that represent a user needs to authenticate
-    itself, representing the user
-</p>
-<p>
-    The client sends the following request to the authorization server:
-</p>
+            <p>
+                The client credentials grant is meant for machine-to-machine authentication.
+            </p>
+            <p>
+                This grant is useful when a client that represent a user needs to authenticate
+                itself, representing the user
+            </p>
+            <p>
+                The client sends the following request to the authorization server:
+            </p>
 HTML
-);
+        );
 
         $response->getBody()->write($html);
 
@@ -74,11 +74,11 @@ HTML
         $post = $request->getParsedBody();
 
         $message = <<<'HTML'
-<p>The authorization server will respond with a JSON object containing the following properties:</p>
+            <p>The authorization server will respond with a JSON object containing the following properties:</p>
 
-<li>token_type with the value Bearer</li>
-<li>expires_in with an integer representing the TTL of the access token</li>
-<li>access_token a JWT signed with the authorization server’s private key</li>
+            <li>token_type with the value Bearer</li>
+            <li>expires_in with an integer representing the TTL of the access token</li>
+            <li>access_token a JWT signed with the authorization server’s private key</li>
 HTML;
 
         $response->getBody()->write($message);
