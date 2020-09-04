@@ -31,6 +31,7 @@ class HomepageHandler extends AbstractHandler
             <ul>
                 <li><a href="/">/</a> The page you find yourself on now.</li>
                 <li><a href="{$prefix['client']}">{$prefix['client']}</a> An overview of OAuth <strong>client</strong> URLs that can be visited.</li>
+                <li><a href="{$prefix['server']}">{$prefix['server']}</a> An overview of OAuth <strong>server</strong> URLs that can be visited.</li>
                 <li>
                     <a href="{$prefix['resource']}">{$prefix['resource']}</a>
                     Example <strong>resources</strong> to trigger the
