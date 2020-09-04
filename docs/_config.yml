@@ -1,7 +1,7 @@
 ---
-baseurl: "/example-oauth2"
+baseurl: "/example-oauth-server"
 description: Example OAuth2 implementation using the PHP League OAuth2 Server and Client packages
-repository: pdsinterop/example-oauth2
+repository: pdsinterop/example-oauth-server
 title: Example OAuth2 implementation using the PHP League OAuth2 Server and Client packages
 url: "https://pdsinterop.org"
 
@@ -37,6 +37,6 @@ aux_links:
     - "https://github.com/pdsinterop"
 color_scheme: nil
 footer_content: "Copyright &copy; 2020 PDS Interop. Distributed under a <a href=\"https://pdsinterop/LICENSE\">MIT license.</a>"
-gh_edit_repository: https://github.com/pdsinterop/example-oauth2
+gh_edit_repository: https://github.com/pdsinterop/example-oauth-server
 logo: "https://avatars3.githubusercontent.com/u/65920341"
 search_enabled: true
