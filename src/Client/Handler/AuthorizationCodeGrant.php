@@ -36,13 +36,13 @@ class AuthorizationCodeGrant extends AbstractHandler
             // The `code_challenge` is the hashed version of the `code_verifier` string.
 
             $codeVerifier = strtr(rtrim(base64_encode(random_bytes(64)), '='), '+/', '-_');
-            // $challenge_bytes = hash('sha256', $codeVerifier, true);
-            // $codeChallenge = strtr(rtrim(base64_encode($challenge_bytes), '='),'+/', '-_');
+            $challenge_bytes = hash('sha256', $codeVerifier, true);
+            $codeChallenge = strtr(rtrim(base64_encode($challenge_bytes), '='),'+/', '-_');
             $_SESSION['code_verifier'] = $codeVerifier;
 
             $authorizationUrl = $provider->getAuthorizationUrl([
                 // @FIXME: The $codeVerifier and/or $codeChallenge MUST be stored so they can be checked against later
-                Parameter::CODE_CHALLENGE => $_SESSION['code_verifier'],
+                Parameter::CODE_CHALLENGE => $codeChallenge,
                 Parameter::CODE_CHALLENGE_METHOD => 'S256',
             ]);
 
@@ -102,4 +102,6 @@ class AuthorizationCodeGrant extends AbstractHandler
 
         return $response->withStatus(200);
     }
+
+    ////////////////////////////// UTILITY METHODS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 }
