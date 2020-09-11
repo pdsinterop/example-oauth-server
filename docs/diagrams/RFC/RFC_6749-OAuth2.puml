@@ -1,0 +1,11 @@
+@startuml
+
+!global $title = 'RFC6749 - OAuth 2.0 Authorization Framework'
+
+!include ../bootstrap.iuml
+
+!include RFC_6749-OAuth2-Figure_1-Abstract_Protocol_Flow.puml
+!include RFC_6749-OAuth2-Figure_2-Refreshing_an_Expired_Access_Token.puml
+!include RFC_6749-OAuth2-Figure_3-Authorization_Code_Flow.puml
+
+@enduml

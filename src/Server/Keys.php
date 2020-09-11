@@ -38,6 +38,7 @@ class Keys
      */
     final public function __construct(CryptKey $privateKey, $encryptionKey)
     {
+        // @FIXME: Add type-check for $encryptionKey (or an extending class with different parameter type?)
         $this->encryptionKey = $encryptionKey;
         $this->privateKey = $privateKey;
     }

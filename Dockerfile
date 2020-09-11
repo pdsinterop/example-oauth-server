@@ -5,7 +5,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 ARG PROJECT_PATH
-RUN : "${PROJECT_PATH:?The 'PROJECT_PATH' variable must be set during build: docker build --build-arg=PROJECT_PATH='/path/to/example-oauth-server'}"
+RUN : "${PROJECT_PATH:=$PWD}"
 
 RUN export DEBIAN_FRONTEND=noninteractive       \
   && apt-get update                             \

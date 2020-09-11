@@ -1,0 +1,22 @@
+https://github.com/thephpleague/oauth2-client/blob/master/README.PROVIDER-GUIDE.md
+https://auth0.com/docs/protocols/oauth2#oauth-endpoints
+https://auth0.com/docs/api-auth/which-oauth-flow-to-use
+
+// @TODO: Search for '/.well-known/openid-configuration', what is it?
+
+<?php
+
+//REDIRECT =  $response->withHeader('location', $url)->withStatus($status);
+
+
+https://developer.okta.com/blog/2019/05/01/is-the-oauth-implicit-flow-dead
+
+https://openid.net/specs/openid-connect-registration-1_0.html
+
+https://github.com/solid/webid-provider-tests/blob/master/test/surface/fetch-openid-config.test.ts
+
+https://aaronparecki.com/oauth-2-simplified/
+
+
+  ErrorLog /dev/stderr
+  TransferLog /dev/stdout

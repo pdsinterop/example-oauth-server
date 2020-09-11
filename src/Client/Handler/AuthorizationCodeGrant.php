@@ -10,6 +10,8 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class AuthorizationCodeGrant extends AbstractHandler
 {
+    ////////////////////////////// CLASS PROPERTIES \\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
     //////////////////////////// GETTERS AND SETTERS \\\\\\\\\\\\\\\\\\\\\\\\\\\
 
     public function getGrantType() : string

@@ -9,6 +9,8 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class ClientCredentialsGrant extends AbstractHandler
 {
+    ////////////////////////////// CLASS PROPERTIES \\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
     //////////////////////////// GETTERS AND SETTERS \\\\\\\\\\\\\\\\\\\\\\\\\\\
 
     public function getGrantType() : string

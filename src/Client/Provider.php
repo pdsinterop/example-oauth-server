@@ -2,6 +2,7 @@
 
 namespace Pdsinterop\Authentication\Client;
 
+use GuzzleHttp\Exception\BadResponseException;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Provider\GenericProvider;
 use League\OAuth2\Client\Token\AccessTokenInterface;
@@ -55,7 +56,17 @@ class Provider extends GenericProvider
     public function getParsedResponse(RequestInterface $request)
     {
         // @CHECKME: Add error to JSON handling? Or handle higher up and output json there?
-        $response = $this->getResponse($request);
+        try {
+            $response = $this->getResponse($request);
+        } catch (BadResponseException $exception) {
+            throw $exception;
+            $response = $exception->getResponse();
+            $body = $response->getBody();
+
+            $json = $body->getContents();
+            $body->rewind();
+            $body->write('{"error" : '.$json.'}');
+        }
 
         $parsed = $this->parseResponse($response);
 
@@ -111,6 +122,12 @@ echo '</pre>';
             return $content;
         }
     }
+
+//    final protected function getAuthorizationParameters(array $options)
+//    {
+//        return parent::getAuthorizationParameters($options);
+//    }
+//
 
     private function convertOptions(array $options) : array
     {

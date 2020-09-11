@@ -16,6 +16,8 @@ class Client implements ClientRepositoryInterface
     /** @var string */
     private $secret;
 
+    //////////////////////////// GETTERS AND SETTERS \\\\\\\\\\\\\\\\\\\\\\\\\\\
+
     //////////////////////////////// PUBLIC API \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
     public function __construct(string $identifier, string $secret, array $grants = [])
@@ -77,4 +79,6 @@ class Client implements ClientRepositoryInterface
             && in_array($grantType, $this->grantTypes, true)
         ;
     }
+
+    ////////////////////////////// UTILITY METHODS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 }

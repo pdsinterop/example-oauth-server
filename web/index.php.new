@@ -1,6 +1,9 @@
 <?php declare(strict_types=1);
 
 /*/ Vendor /*/
+use Defuse\Crypto\Exception\BadFormatException;
+use Defuse\Crypto\Exception\EnvironmentIsBrokenException;
+use Defuse\Crypto\Key;
 use GuzzleHttp\Client as HttpClient;
 use Laminas\Diactoros\Response;
 use Laminas\Diactoros\ServerRequestFactory;
@@ -54,17 +57,29 @@ $expires = [
 ];
 
 $clientSecret = 'client secret';
-$clientIdentifier = 'OAuth Example App';
+$clientIdentifier = 'PDS Interop OAuth Example App';
 
-$encryptionKeyPath = dirname(__DIR__) . '/tests/fixtures/keys/encryption.key';
+// @TODO: Check with DevOps what current best practice for secrets is. Vault or similar? Is the output still a string?
 $privateKeyPath = dirname(__DIR__) . '/tests/fixtures/keys/private.key';
+$encryptionKeyPath = dirname(__DIR__) . '/tests/fixtures/keys/encryption.key';
 
+// OR for \Defuse\Crypto\Key $isCrypto = true; $encryptionKeyPath = dirname(__DIR__) . '/tests/fixtures/keys/crypto.key';
+$isCrypto = false;
+
+
+/*/ ----------------------------------------------------------------------------
+ * An authorization grant is a credential representing the resource owner's
+ * authorization (to access its protected resources) used by the client to
+ * obtain an access token.
+ *
+ * @CHECKME: The League OAuth2 library does not seem to be aware of the concept of the Authorization Code Grant without PKCE
+/*/
 $grantTypes = [
     GrantType::AUTH_CODE,
     GrantType::CLIENT_CREDENTIALS,
 //    GrantType::IMPLICIT,
-//    GrantType::PASSWORD,
-    GrantType::REFRESH_TOKEN,
+    GrantType::PASSWORD,
+//    GrantType::REFRESH_TOKEN,
 ];
 
 $location = getenv('STORAGE_ENDPOINT') ?: 'local:'.dirname(__DIR__) . '/tests/fixtures/files';
@@ -76,7 +91,18 @@ $location = getenv('STORAGE_ENDPOINT') ?: 'local:'.dirname(__DIR__) . '/tests/fi
 // -----------------------------------------------------------------------------
 $encryptionKey = file_get_contents($encryptionKeyPath);
 
-$privateKey = new CryptKey(file_get_contents($privateKeyPath));
+$privateKey = new CryptKey($privateKeyPath/*, 'passphrase'*/);
+
+// @FIXME: Add error handling
+if ($isCrypto === true) {
+    try {
+        $encryptionKey = Key::loadFromAsciiSafeString($encryptionKeyPath);
+    } catch (BadFormatException $exception) {
+        throw $exception;
+    } catch (EnvironmentIsBrokenException $exception) {
+        throw $exception;
+    }
+}
 
 $keys = new Keys($privateKey, $encryptionKey);
 
@@ -93,6 +119,7 @@ $isServer = strpos($request->getRequestTarget(), ServerPrefix::AUTHORIZATION) ==
 $expiration = new Expiration($expires['accessToken'], $expires['authCode'], $expires['refreshToken']);
 
 $user = new UserEntity();
+$user->setIdentifier('Empty User');
 
 if (isset($_SESSION['user_id'])) {
     $user->setIdentifier($_SESSION['user_id']);
@@ -184,7 +211,9 @@ try {
         }
 
         if ($isServer) {
-            $response = $response->withHeader('content-type', 'application/json; charset=UTF-8');
+            $response = $response->withHeader('pragma', 'no-cache')
+                ->withHeader('cache-control', 'no-store')
+                ->withHeader('content-type', 'application/json; charset=UTF-8');
 
             $description = $description ?? vsprintf('%s: %s', [
                     get_class($exception),
@@ -194,6 +223,7 @@ try {
             $message = json_encode([
                 Parameter::ERROR => $error,
                 Parameter::ERROR_DESCRIPTION => $description,
+                // Parameter::ERROR_URI => '@TODO: Build URL (and logic) that explains errors',
                 'trace' => $exception->getTrace(),
             ]);
         }

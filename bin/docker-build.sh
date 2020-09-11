@@ -64,12 +64,15 @@ docker-build() {
             '--label' "build_date=${sBuildDate}"
             '--label' 'maintainer=Ben Peachey <potherca@gmail.com>'
             '--label' "org.label-schema.build-date=${sBuildDate}"
-            '--label' 'org.label-schema.description="Example OAuth2 implementation using the PHP League OAuth2 Server and Client packages"'
-            '--label' 'org.label-schema.name="pdsinterop/example-oauth-server"'
-            '--label' 'org.label-schema.schema-version="1.0"'
-            '--label' 'org.label-schema.url="https://pdsinterop.org/example-oauth-server/"'
-            '--label' 'org.label-schema.vcs-url="https://github.com/pdsinterop/example-oauth-server/"'
-            '--label' 'org.label-schema.vendor="PDS Interop"'
+            '--label' 'org.label-schema.description=Example OAuth2 implementation using the PHP League OAuth2 Server and Client packages'
+            '--label' 'org.label-schema.name=pdsinterop/example-oauth-server'
+            '--label' 'org.label-schema.schema-version=1.0'
+            '--label' 'org.label-schema.url=https://pdsinterop.org/example-oauth-server/'
+            '--label' 'org.label-schema.vcs-url=https://github.com/pdsinterop/example-oauth-server/'
+            '--label' 'org.label-schema.vendor=PDS Interop'
+
+            vcs-url and vcs-ref
+
             '--label' "org.label-schema.version=${sTagName}"
             '--label' "version=${sTagName}"
             '--tag' "pdsinterop/example-oauth-server:${sTagName}"

@@ -12,8 +12,6 @@ participant "User-Agent"
 
 box "Authorization Server"
   participant "Authorization Server"
-'  participant "Authorization endpoint"
-'  participant "Token endpoint"
 endbox
 
 participant "Resource Server"

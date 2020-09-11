@@ -38,4 +38,6 @@ abstract class AbstractHandler
 
         return $response->withHeader('content-type', 'application/json; charset=UTF-8');
     }
+
+    ////////////////////////////// UTILITY METHODS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 }

@@ -171,4 +171,37 @@ abstract class AbstractHandler extends \Pdsinterop\Authentication\AbstractHandle
 </body>
 HTML;
     }
+
+    final public function buildUrlResponse(string $url, string $title) : string
+    {
+        [$uri, $query] = explode('?', $url);
+
+        $queryParameters = explode('&', $query);
+        natcasesort($queryParameters);
+        $queryParameters = implode("\n", array_map(function ($value) use ($url) {
+            return '<li><a href="' . $url . '">' . urldecode($value) . '</a></li>';
+        }, $queryParameters));
+
+        return <<<"HTML"
+<!doctype html>
+<meta charset="UTF-8">
+<title>{$title}</title>
+<style>
+    body {margin: 5% auto 0 auto ; width: 40em;}
+    li {list-style: none; white-space: nowrap;}
+    li:first-child::before {content: "?";}
+    li::before {content: "&";width:1em;margin-right: 0.5em;display: inline-block;text-align: right}
+    p, ul {margin: 0}
+</style>
+<body>
+    <h2>{$title}</h2>
+    <p><a href="{$url}">$uri</a></p>
+    <ul>
+        $queryParameters
+    </ul>
+</body>
+HTML;
+    }
+
+    ////////////////////////////// UTILITY METHODS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 }
