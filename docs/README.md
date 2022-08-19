@@ -10,7 +10,7 @@ Resource Server in PHP. It consists of multiple parts:
 - 5. [Security Considerations](./05.security-considerations.md)
 
 The articles were written using the experience gained working at [PDS Interop](https://pdsinterop.org),
-implementing the standards that define a [Solid Server](solidproject.org/).
+implementing the standards that define a [Solid Server](https://solidproject.org/).
 
 An example combining a client application, an authorization server, and a 
 resource server, used in these articles, can be found at https://github.com/pdsinterop/example-oauth-server/
