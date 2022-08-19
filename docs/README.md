@@ -13,4 +13,4 @@ The articles were written using the experience gained working at [PDS Interop](h
 implementing the standards that define a [Solid Server](solidproject.org/).
 
 An example combining a client application, an authorization server, and a 
-resource server, used in these articles, can be found at https://github/pdsinterop/oauth-example
+resource server, used in these articles, can be found at https://github.com/pdsinterop/example-oauth-server/
