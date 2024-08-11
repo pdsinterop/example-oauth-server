@@ -34,13 +34,14 @@ docker-build() {
     # --------------------------------------------------------------------------
     if [[ ! -f "${sDockerfilePath}" ]];then
         echo " ! ERROR: Could not find given Dockerfile '${sDockerfilePath}'" >> "${ERROR_OUTPUT}"
-        exit ${EXIT_COULD_NOT_FIND_FILE}
-    elif [[ "${sIdFile}" != "" ]] && [[ ! -f ${sIdFile} ]]; then
+        exit "${EXIT_COULD_NOT_FIND_FILE}"
+    elif [[ "${sIdFile}" != "" ]] && [[ ! -f "${sIdFile}" ]]; then
         echo " ! ERROR: Could not find given Image ID file '${sIdFile}'" >> "${ERROR_OUTPUT}"
-        exit ${EXIT_COULD_NOT_FIND_FILE}
+        exit "${EXIT_COULD_NOT_FIND_FILE}"
     else
         if [[ "${sIdFile}" = "" ]];then
-            readonly sIdFile="/tmp/docker.$(date +'%Y%m%d%H%M%S').iid"
+            sIdFile="/tmp/docker.$(date +'%Y%m%d%H%M%S').iid"
+            readonly sIdFile
         fi
 
         if [[ ! -f ${sIdFile} ]]; then
